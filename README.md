@@ -17,7 +17,7 @@ This is a new [**React Native**](https://reactnative.dev) project, bootstrapped 
 
 ### 📹 App Video
 
-![App Preview](assets/Vishual_Pluse.webm)
+![App Preview](assets/Vishual_Pluse.gif)
 
 > **Note**: Replace the image and video paths with actual file paths or URLs in your project.
 
