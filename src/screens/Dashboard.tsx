@@ -4,7 +4,6 @@ import {
   View, Text, StyleSheet, Image, ScrollView, Dimensions,
   ActivityIndicator,
 } from 'react-native';
-import { ProgressCircle } from 'react-native-svg-charts';
 import { LineChart } from 'react-native-chart-kit';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -16,10 +15,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchCardData } from '../slices/dataSlice';
 import { AppDispatch, RootState } from '../store/store';
 import moment from 'moment';
+import CustomProgressCircle from '../components/ProgressCircle';
 
 const screenWidth = Dimensions.get('window').width;
 
-const Dashboard = () => {
+const Dashboard: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { cardData, loading, error } = useSelector((state: RootState) => state.data);
 
@@ -120,13 +120,10 @@ const Dashboard = () => {
       {/* Task Completion */}
       <View style={styles.progressCard}>
         <View style={{ marginRight: 12,alignItems: 'center', justifyContent: 'center' }}>
-            <Text style={{ fontWeight: 'bold', fontSize: 18,position: 'absolute',color: '#fff' }}>76%</Text>
-            <ProgressCircle
-                style={{ height: 90, width: 80 }}
-                progress={0.76}
-                progressColor="#44d6a8"
-                animateDuration={1000}
-                strokeWidth={8}
+            <Text style={{ fontWeight: 'bold', fontSize: 18,position: 'absolute',color: '#fff',zIndex: 1 }}>76%</Text>
+            <CustomProgressCircle 
+              progress={0.76}
+              size={70}
             />
         </View>
         <View style={{ flex: 1 }}>

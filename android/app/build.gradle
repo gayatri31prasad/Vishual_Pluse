@@ -37,6 +37,14 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        release {
+            if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE')) {
+                storeFile file(MYAPP_UPLOAD_STORE_FILE)
+                storePassword MYAPP_UPLOAD_STORE_PASSWORD
+                keyAlias MYAPP_UPLOAD_KEY_ALIAS
+                keyPassword MYAPP_UPLOAD_KEY_PASSWORD
+            }
+        }
     }
     buildTypes {
         debug {
@@ -46,6 +54,7 @@ android {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
             signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             
             // Enable code shrinking and resource minification
             minifyEnabled true
@@ -54,15 +63,25 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
         }
     }
-    // Split APKs by ABI to reduce size per device architecture
+    // Option A: Comment out the splits block entirely for a single build output
+    /*
+    splits {
+        abi {
+            enable false
+        }
+    }
+    */
+
+    // Option B: If you want to keep the ABI splits for other uses while also generating a universal APK:
     splits {
         abi {
             enable true
             reset()
             include "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
-            universalApk false
+            universalApk true  // This generates a universal APK that supports all devices.
         }
     }
+    
     // Additional packaging options for further compression of native libraries.
     packagingOptions {
         jniLibs {
@@ -74,7 +93,6 @@ android {
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
-
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
     } else {
